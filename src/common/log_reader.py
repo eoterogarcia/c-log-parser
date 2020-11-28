@@ -4,6 +4,10 @@ from datetime import datetime
 
 class LogReader(object):
 
+    TIMESTAMP_CONNECTION = 'timestamp_conn'
+    SOURCE_HOST = 'source_host'
+    TARGET_HOST = 'target_host'
+
     def __init__(self, file_path: str, read_options: str = 'r'):
         """
         Basic log reader constructor
@@ -21,7 +25,7 @@ class LogReader(object):
         """
         with open(self.file_path, self.read_options, newline='') as csvfile:
             reader = csv.DictReader(csvfile,
-                                    fieldnames=['timestamp_conn', 'source_host', 'target_host'],
+                                    fieldnames=[LogReader.TIMESTAMP_CONNECTION, LogReader.SOURCE_HOST, LogReader.TARGET_HOST],
                                     delimiter=' ',
                                     quoting=csv.QUOTE_NONE)
             for record in reader:

@@ -1,6 +1,8 @@
 import argparse
-from typing import Tuple
+from typing import Tuple, Generator
 from datetime import datetime
+
+from src.common.log_reader import LogReader
 
 
 def get_args() -> Tuple[str, datetime, datetime, str]:
@@ -23,5 +25,19 @@ def get_args() -> Tuple[str, datetime, datetime, str]:
            datetime.strptime(args.end_datetime, datetime_format), str(args.target_hostname)
 
 
+def get_source_host_list(reader_generator: Generator, init_datetime: datetime, end_datetime: datetime, target_host: str):
+    source_host_list = []
+    for record in reader_generator:
+        if init_datetime <= record[LogReader.TIMESTAMP_CONNECTION] <= end_datetime and target_host == record[LogReader.TARGET_HOST]:
+            source_host_list.append(record[LogReader.SOURCE_HOST])
+            # todo change! write results to file as soon as they are generated
+    return source_host_list
+
+
 if __name__ == '__main__':
-    file_path, init_datetime, end_datetime, target_host = get_args()
+    file_path, init, end, target = get_args()
+
+    log_reader = LogReader('test/data/tiny_log.txt')
+    reader = log_reader.read_log_lines()
+    host_list = get_source_host_list(reader, init, end, target)
+    print(host_list)
