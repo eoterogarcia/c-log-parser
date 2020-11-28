@@ -1,5 +1,7 @@
 import unittest
+from datetime import datetime
 from src.common.log_reader import LogReader
+
 
 
 class TestLogReader(unittest.TestCase):
@@ -13,8 +15,8 @@ class TestLogReader(unittest.TestCase):
         for record in reader:
             records.append(record)
 
-        expected_records = [{'timestamp_conn': '1565647204351', 'source_host': 'Aadvik', 'target_host': 'Matina'},
-                            {'timestamp_conn': '1565647205599', 'source_host': 'Keimy', 'target_host': 'Dmetri'},
-                            {'timestamp_conn': '1565647212986', 'source_host': 'Tyreonna', 'target_host': 'Rehgan'},
-                            {'timestamp_conn': '1565647228897', 'source_host': 'Heera', 'target_host': 'Eron'}]
+        expected_records = [{'timestamp_conn': datetime.fromtimestamp(1565647204.351), 'source_host': 'Aadvik', 'target_host': 'Matina'},
+                            {'timestamp_conn': datetime.fromtimestamp(1565647205.599), 'source_host': 'Keimy', 'target_host': 'Dmetri'},
+                            {'timestamp_conn': datetime.fromtimestamp(1565647212.986), 'source_host': 'Tyreonna', 'target_host': 'Rehgan'},
+                            {'timestamp_conn': datetime.fromtimestamp(1565647228.897), 'source_host': 'Heera', 'target_host': 'Eron'}]
         self.assertListEqual(expected_records, records)

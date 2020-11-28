@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime
 
 
 class LogReader(object):
@@ -24,4 +25,5 @@ class LogReader(object):
                                     delimiter=' ',
                                     quoting=csv.QUOTE_NONE)
             for record in reader:
+                record['timestamp_conn'] = datetime.fromtimestamp(float(record['timestamp_conn'])/1000.0)
                 yield record
