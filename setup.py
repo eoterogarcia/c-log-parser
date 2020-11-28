@@ -3,7 +3,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-DEPENDENCIES = []
+DEPENDENCIES = ['nose==1.3.7']
 
 setuptools.setup(
     name="c-log-parser",
