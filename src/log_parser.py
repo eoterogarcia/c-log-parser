@@ -110,3 +110,7 @@ def analyze_stream_log(reader_generator: Generator, target_host: str, source_hos
                 source_host_list.append(record[LogReader.SOURCE_HOST])
             if source_host is not None and source_host == record[LogReader.SOURCE_HOST]:
                 target_host_list.append(record[LogReader.TARGET_HOST])
+
+    # print residual results
+    _print_or_store_metrics(current_time, source_host, target_host_list, target_host, source_host_list,
+                            connections_host_count)
