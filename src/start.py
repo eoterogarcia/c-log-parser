@@ -14,18 +14,28 @@ def get_args() -> Tuple[str, datetime, datetime, str, str]:
     """
     parser = argparse.ArgumentParser(description='Log parser utility')
     parser.add_argument('--log_file', type=str, help='Path to the log file', required=True)
-    parser.add_argument('--init_datetime', type=str, help='Initial datetime connection, format: "dd/mm/yyyy hh:mm:ss"',
-                        required=True)
-    parser.add_argument('--end_datetime', type=str, help='End datetime connection, format: "dd/mm/yyyy hh:mm:ss"',
-                        required=True)
-    parser.add_argument('--target_hostname', type=str, help='The target hostname ', required=True)
-    parser.add_argument('--output', type=str, help='Path of the output file to write parsed results. If not defined, '
-                                                   'results are printed in console', required=False)
+    parser.add_argument('--init_datetime', type=str,
+                        help='Filter connections defining the initial datetime, format: "dd/mm/yyyy hh:mm:ss"',
+                        required=False)
+    parser.add_argument('--end_datetime', type=str,
+                        help='Filter connections defining the end datetime, format: "dd/mm/yyyy hh:mm:ss"',
+                        required=False)
+    parser.add_argument('--target_hostname', type=str,
+                        help='Get a list of hostnames connected to a given configurable target hostname',
+                        required=False)
+    parser.add_argument('--source_hostname', type=str,
+                        help='Get a list of hostnames received connections from a given configurable source hostname',
+                        required=False)
+    parser.add_argument('--output', type=str,
+                        help='Path of the output file to write parsed results. If not defined, results are printed in console',
+                        required=False)
     args = parser.parse_args()
 
     datetime_format = '%d/%m/%Y %H:%M:%S'
-    parameters = (str(args.log_file), datetime.strptime(args.init_datetime, datetime_format),
-                  datetime.strptime(args.end_datetime, datetime_format), str(args.target_hostname),
+    parameters = (str(args.log_file),
+                  datetime.strptime(args.init_datetime, datetime_format) if args.init_datetime else None,
+                  datetime.strptime(args.end_datetime, datetime_format) if args.end_datetime else None,
+                  str(args.target_hostname) if args.target_hostname else None,
                   str(args.output) if args.output else None)
     return parameters
 

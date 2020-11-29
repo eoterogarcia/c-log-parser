@@ -14,6 +14,7 @@ class TestParserArguments(unittest.TestCase):
                                                 init_datetime="12/08/2019 21:00:00",
                                                 end_datetime="12/08/2019 23:00:00",
                                                 target_hostname="Dmetri",
+                                                source_hostname='Heera',
                                                 output="path/to/something"))
     def test_get_args(self, mock_args):
         file_path, init_datetime, end_datetime, target_host, output = get_args()
