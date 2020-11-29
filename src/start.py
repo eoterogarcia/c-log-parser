@@ -3,7 +3,7 @@ from typing import Tuple
 from datetime import datetime
 
 from src.common.log_reader import LogReader
-from src.log_parser import get_source_host_list
+from src.log_parser import get_source_host_list, analyze_stream_log
 
 
 def get_args() -> Tuple[str, datetime, datetime, str, str]:
@@ -35,6 +35,7 @@ def get_args() -> Tuple[str, datetime, datetime, str, str]:
     parameters = (str(args.log_file),
                   datetime.strptime(args.init_datetime, datetime_format) if args.init_datetime else None,
                   datetime.strptime(args.end_datetime, datetime_format) if args.end_datetime else None,
+                  str(args.source_hostname) if args.source_hostname else None,
                   str(args.target_hostname) if args.target_hostname else None,
                   str(args.output) if args.output else None)
     return parameters
@@ -43,18 +44,21 @@ def get_args() -> Tuple[str, datetime, datetime, str, str]:
 def process_log(input_path: str,
                 init_datetime: datetime,
                 end_datetime: datetime,
+                source_host: str,
                 target_host: str,
                 output: str):
     log_reader = LogReader(input_path)
     reader = log_reader.read_log_lines()
 
-    host_generator = get_source_host_list(reader, init_datetime, end_datetime, target_host)
-
-    for host in host_generator:
-        if not output:
-            print(host)
+    if init_datetime and end_datetime:
+        host_generator = get_source_host_list(reader, init_datetime, end_datetime, target_host)
+        for host in host_generator:
+            if not output:
+                print(host)
+    else:
+        analyze_stream_log(reader, target_host, source_host, elapsed_time=60, unit_time_minutes=False)
 
 
 if __name__ == '__main__':
-    file_path, time_init, time_end, target, output_file = get_args()
-    process_log(file_path, time_init, time_end, target, output_file)
+    file_path, time_init, time_end, source, target, output_file = get_args()
+    process_log(file_path, time_init, time_end, source, target, output_file)
