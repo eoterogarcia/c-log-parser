@@ -17,9 +17,10 @@ class TestParserArguments(unittest.TestCase):
                                                 source_hostname='Heera',
                                                 output="path/to/something"))
     def test_get_args(self, mock_args):
-        file_path, init_datetime, end_datetime, target_host, output = get_args()
+        file_path, init_datetime, end_datetime, source_hostname, target_host, output = get_args()
         self.assertEqual(file_path, "test/data/tiny_log.txt", "File path not equal")
         self.assertEqual(init_datetime, datetime(2019, 8, 12, 21, 0), "Init time not equal")
         self.assertEqual(end_datetime, datetime(2019, 8, 12, 23, 0), "End time not equal")
         self.assertEqual(target_host, "Dmetri", "Host not equal")
+        self.assertEqual(source_hostname, "Heera", "Host not equal")
         self.assertEqual(output, "path/to/something", "Output not equal")
