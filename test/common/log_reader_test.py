@@ -3,7 +3,6 @@ from datetime import datetime
 from src.common.log_reader import LogReader
 
 
-
 class TestLogReader(unittest.TestCase):
 
     def setUp(self) -> None:
