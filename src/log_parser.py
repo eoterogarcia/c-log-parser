@@ -1,7 +1,7 @@
 import time
 from typing import Generator
 from datetime import datetime, timedelta
-from src.common.log_reader import LogReader
+from src.common import TIMESTAMP_CONNECTION, SOURCE_HOST, TARGET_HOST
 
 
 def get_source_host_list(reader_generator: Generator,
@@ -18,9 +18,9 @@ def get_source_host_list(reader_generator: Generator,
     """
     hard_end_datetime = end_datetime + timedelta(minutes=5)
     for record in reader_generator:
-        if init_datetime <= record[LogReader.TIMESTAMP_CONNECTION] <= end_datetime and target_host == record[LogReader.TARGET_HOST]:
-            yield record[LogReader.SOURCE_HOST]
-        elif hard_end_datetime < record[LogReader.TIMESTAMP_CONNECTION]:
+        if init_datetime <= record[TIMESTAMP_CONNECTION] <= end_datetime and target_host == record[TARGET_HOST]:
+            yield record[SOURCE_HOST]
+        elif hard_end_datetime < record[TIMESTAMP_CONNECTION]:
             # time range passed, so abort log parser because lines are sorted by timestamp. Data can be
             # be out of order by maximum 5 minutes.
             break
@@ -104,12 +104,12 @@ def analyze_stream_log(reader_generator: Generator, target_host: str, source_hos
             init_time = time.time()
         else:
             # count connections from source host
-            connections_host_count = _sum_connections(connections_host_count, record[LogReader.SOURCE_HOST])
+            connections_host_count = _sum_connections(connections_host_count, record[SOURCE_HOST])
             # evaluate conditions
-            if target_host is not None and target_host == record[LogReader.TARGET_HOST]:
-                source_host_list.append(record[LogReader.SOURCE_HOST])
-            if source_host is not None and source_host == record[LogReader.SOURCE_HOST]:
-                target_host_list.append(record[LogReader.TARGET_HOST])
+            if target_host is not None and target_host == record[TARGET_HOST]:
+                source_host_list.append(record[SOURCE_HOST])
+            if source_host is not None and source_host == record[SOURCE_HOST]:
+                target_host_list.append(record[TARGET_HOST])
 
     # print residual results
     _print_or_store_metrics(current_time, source_host, target_host_list, target_host, source_host_list,

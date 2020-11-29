@@ -23,8 +23,7 @@ class TestLogParser(unittest.TestCase):
         host_generator = get_source_host_list(self.reader,
                                               init_datetime=datetime(2019, 8, 12, 21, 0),
                                               end_datetime=datetime(2019, 8, 14, 21, 0),
-                                              target_host='Dmetri',
-                                              output='output')
+                                              target_host='Dmetri')
         host_list = [host for host in host_generator]
         expected_host_list = ['Keimy']
         self.assertListEqual(host_list, expected_host_list, "Expected one host in list")
@@ -33,7 +32,6 @@ class TestLogParser(unittest.TestCase):
         host_generator = get_source_host_list(self.reader,
                                               init_datetime=datetime(2019, 8, 12, 21, 0),
                                               end_datetime=datetime(2019, 8, 14, 21, 0),
-                                              target_host='Zoheb',
-                                              output='output')
+                                              target_host='Zoheb')
         host_list = [host for host in host_generator]
         self.assertListEqual(host_list, [], "Expected zero host in list")

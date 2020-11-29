@@ -1,12 +1,9 @@
 import csv
 from datetime import datetime
+from src.common import TIMESTAMP_CONNECTION, SOURCE_HOST, TARGET_HOST
 
 
 class LogReader(object):
-
-    TIMESTAMP_CONNECTION = 'timestamp_conn'
-    SOURCE_HOST = 'source_host'
-    TARGET_HOST = 'target_host'
 
     def __init__(self, file_path: str, read_options: str = 'r'):
         """
@@ -25,9 +22,9 @@ class LogReader(object):
         """
         with open(self.file_path, self.read_options, newline='') as csvfile:
             reader = csv.DictReader(csvfile,
-                                    fieldnames=[LogReader.TIMESTAMP_CONNECTION, LogReader.SOURCE_HOST, LogReader.TARGET_HOST],
+                                    fieldnames=[TIMESTAMP_CONNECTION, SOURCE_HOST, TARGET_HOST],
                                     delimiter=' ',
                                     quoting=csv.QUOTE_NONE)
             for record in reader:
-                record[LogReader.TIMESTAMP_CONNECTION] = datetime.fromtimestamp(float(record[LogReader.TIMESTAMP_CONNECTION])/1000.0)
+                record[TIMESTAMP_CONNECTION] = datetime.fromtimestamp(float(record[TIMESTAMP_CONNECTION])/1000.0)
                 yield record
