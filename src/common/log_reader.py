@@ -29,5 +29,5 @@ class LogReader(object):
                                     delimiter=' ',
                                     quoting=csv.QUOTE_NONE)
             for record in reader:
-                record['timestamp_conn'] = datetime.fromtimestamp(float(record['timestamp_conn'])/1000.0)
+                record[LogReader.TIMESTAMP_CONNECTION] = datetime.fromtimestamp(float(record[LogReader.TIMESTAMP_CONNECTION])/1000.0)
                 yield record
