@@ -1,6 +1,6 @@
 import argparse
 from typing import Tuple, Generator
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from src.common.log_reader import LogReader
 
@@ -34,6 +34,7 @@ def get_source_host_list(reader_generator: Generator,
                          end_datetime: datetime,
                          target_host: str,
                          output: str):
+    hard_end_datetime = end_datetime + timedelta(minutes=5)
     for record in reader_generator:
         if init_datetime <= record[LogReader.TIMESTAMP_CONNECTION] <= end_datetime and target_host == record[LogReader.TARGET_HOST]:
             if output:
@@ -41,8 +42,9 @@ def get_source_host_list(reader_generator: Generator,
                 record[LogReader.SOURCE_HOST]
             else:
                 print(record[LogReader.SOURCE_HOST])
-        elif init_datetime > record[LogReader.TIMESTAMP_CONNECTION]:
-            # time range passed, so abort log parser because lines are sorted by timestamp
+        elif hard_end_datetime > record[LogReader.TIMESTAMP_CONNECTION]:
+            # time range passed, so abort log parser because lines are sorted by timestamp. Data can be
+            # be out of order by maximum 5 minutes.
             break
 
 
