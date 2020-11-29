@@ -13,7 +13,7 @@ def get_args() -> Tuple[str, datetime, datetime, str, str]:
     country, input_method)
     """
     parser = argparse.ArgumentParser(description='Log parser utility')
-    parser.add_argument('--log_file', type=str, help='Path to the log file', required=True)
+    parser.add_argument('--log_file', type=str, help='Path to the log file to parse', required=True)
     parser.add_argument('--init_datetime', type=str,
                         help='Filter connections defining the initial datetime, format: "dd/mm/yyyy hh:mm:ss"',
                         required=False)
@@ -50,7 +50,7 @@ def process_log(input_path: str,
     log_reader = LogReader(input_path)
     reader = log_reader.read_log_lines()
 
-    if init_datetime and end_datetime:
+    if init_datetime and end_datetime and target_host:
         host_generator = get_source_host_list(reader, init_datetime, end_datetime, target_host)
         for host in host_generator:
             if not output:
