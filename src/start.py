@@ -1,8 +1,9 @@
 import argparse
-from typing import Tuple, Generator
-from datetime import datetime, timedelta
+from typing import Tuple
+from datetime import datetime
 
 from src.common.log_reader import LogReader
+from src.log_parser import get_source_host_list
 
 
 def get_args() -> Tuple[str, datetime, datetime, str, str]:
@@ -29,28 +30,21 @@ def get_args() -> Tuple[str, datetime, datetime, str, str]:
     return parameters
 
 
-def get_source_host_list(reader_generator: Generator,
-                         init_datetime: datetime,
-                         end_datetime: datetime,
-                         target_host: str,
-                         output: str):
-    hard_end_datetime = end_datetime + timedelta(minutes=5)
-    for record in reader_generator:
-        if init_datetime <= record[LogReader.TIMESTAMP_CONNECTION] <= end_datetime and target_host == record[LogReader.TARGET_HOST]:
-            if output:
-                # todo write results to file as soon as they are generated
-                record[LogReader.SOURCE_HOST]
-            else:
-                print(record[LogReader.SOURCE_HOST])
-        elif hard_end_datetime > record[LogReader.TIMESTAMP_CONNECTION]:
-            # time range passed, so abort log parser because lines are sorted by timestamp. Data can be
-            # be out of order by maximum 5 minutes.
-            break
+def process_log(input_path: str,
+                init_datetime: datetime,
+                end_datetime: datetime,
+                target_host: str,
+                output: str):
+    log_reader = LogReader(input_path)
+    reader = log_reader.read_log_lines()
+
+    host_generator = get_source_host_list(reader, init_datetime, end_datetime, target_host)
+
+    for host in host_generator:
+        if not output:
+            print(host)
 
 
 if __name__ == '__main__':
     file_path, time_init, time_end, target, output_file = get_args()
-
-    log_reader = LogReader('test/data/tiny_log.txt')
-    reader = log_reader.read_log_lines()
-    get_source_host_list(reader, time_init, time_end, target, output_file)
+    process_log(file_path, time_init, time_end, target, output_file)
