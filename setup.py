@@ -16,6 +16,7 @@ setuptools.setup(
     url="https://github.com/eoterogarcia/c-log-parser",
     install_requires=DEPENDENCIES,
     packages=setuptools.find_packages(),
+    test_suite='nose.collector',
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

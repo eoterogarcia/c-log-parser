@@ -36,6 +36,13 @@ Download the source code by cloning the repository or by pressing 'Download ZIP'
 ```shell script
 python3 setup.py install
 ```
+##### Testing
+
+Test are automatically executed with `nose` using setuptools or running `nosetests` directly
+
+```shell script
+python3 setup.py test
+```
 
 ### Documentation
 
