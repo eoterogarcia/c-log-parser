@@ -72,3 +72,15 @@ Log parsing to obtain the list of hostnames connected to "Dmetri" during de the 
 ```shell script
 python3 src/start.py --log_file test/data/input-file-10000.txt --init_datetime "12/08/2019 21:00:00" --end_datetime "14/08/2019 23:00:00" --target_hostname Dmetri
 ```
+
+##### Parameter configuration
+
+ - If `init_datetime` and `end_datetime` are presented in parameters, it is needed `target_hostname` is defined
+ - If no optional parameters are provided, then the program return the hostname that generated most connections in the last hour
+ 
+#### Future work
+
+- Propper integration testing
+- Store parsed data in external files, not output console
+- Make the code independent from filtering to generate a more generalizable log parser 
+
