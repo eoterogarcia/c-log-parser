@@ -56,7 +56,7 @@ def process_log(input_path: str,
             if not output:
                 print(host)
     else:
-        analyze_stream_log(reader, target_host, source_host, elapsed_time=60, unit_time_minutes=False)
+        analyze_stream_log(reader, target_host, source_host, elapsed_time=60, unit_time_minutes=True)
 
 
 if __name__ == '__main__':

@@ -47,7 +47,6 @@ def _get_host_with_more_connections(connections_host: dict):
     :return: hostname with the highest number of connections
     """
     sorted_connections_host = sorted(connections_host.items(), key=lambda x: x[1], reverse=True)
-    # todo get only the first connections
     return sorted_connections_host[0]
 
 
