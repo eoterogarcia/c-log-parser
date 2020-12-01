@@ -75,7 +75,7 @@ python3 src/start.py --log_file test/data/input-file-10000.txt --init_datetime "
 
 ##### Parameter configuration
 
- - If `init_datetime` and `end_datetime` are presented in parameters, it is needed `target_hostname` is defined
+ - If `init_datetime` and `end_datetime` are presented in parameters, `target_hostname` must be defined
  - If no optional parameters are provided, then the program return the hostname that generated most connections in the last hour
  
 #### Future work
